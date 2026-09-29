@@ -117,7 +117,7 @@ Two S3 buckets were created to represent separate development and production env
 - `fintech-prod-data-an1982`
 
 Public access remained blocked to prevent unintended public exposure.
-
+![FinTech S3 Buckets](01-fintech-s3-buckets.png)
 ## Step 2 - Create the Software Engineer Policy
 
 A custom IAM policy named:
@@ -129,7 +129,7 @@ was created.
 The policy allows the software engineering identity to list AWS S3 buckets while granting object access only to the development code bucket.
 
 It does not grant access to the production data bucket.
-
+![Software Engineer IAM Policy](02-software-engineer-policy.png)
 ## Step 3 - Create the DBA Policy
 
 A second custom IAM policy named:
@@ -139,7 +139,7 @@ A second custom IAM policy named:
 was created.
 
 This policy grants the database administrator access to the production data bucket while excluding access to the development code bucket.
-
+![DBA IAM Policy](03-dba-policy.png)
 ## Step 4 - Configure IAM Groups
 
 Two IAM groups were created:
@@ -150,7 +150,9 @@ Two IAM groups were created:
 The appropriate custom IAM policy was attached to each group.
 
 This allows permissions to be managed through group membership rather than assigning permissions directly to individual users.
+![Software Engineers Group](04-software-engineers-group.png)
 
+![Database Admins Group](05-database-admins-group.png)
 ## Step 5 - Create IAM Users
 
 Two IAM users were created:
@@ -171,7 +173,7 @@ A test file was successfully uploaded to:
 `fintech-dev-code-an1982`
 
 This confirmed that the Software Engineer policy permitted the required development activity.
-
+![Sarah Development Upload Success](06-sarah-dev-upload-success.png)
 ## Step 7 - Test Sarah's Production Restriction
 
 Sarah then attempted to access:
@@ -181,7 +183,7 @@ Sarah then attempted to access:
 AWS returned an insufficient permissions message for `s3:ListBucket`.
 
 This confirmed that Sarah could see the bucket name but could not list or access its production objects.
-
+![Sarah Production Access Denied](07-sarah-prod-access-denied.png)
 ## Step 8 - Test Bob's Authorized Access
 
 Bob signed in using the `bob-dba` identity.
@@ -189,7 +191,7 @@ Bob signed in using the `bob-dba` identity.
 He successfully accessed the production data bucket and uploaded a test object.
 
 This confirmed that the DBA policy provided the required production access.
-
+![Bob Production Upload Success](08-bob-prod-upload-success.png)
 ## Step 9 - Test Bob's Development Restriction
 
 Bob attempted to access:
@@ -199,7 +201,7 @@ Bob attempted to access:
 AWS denied the `s3:ListBucket` operation.
 
 This demonstrated that the database administrator could not access the development code environment.
-
+![Bob Development Access Denied](09-bob-dev-access-denied.png)
 ---
 
 ## Test Results
